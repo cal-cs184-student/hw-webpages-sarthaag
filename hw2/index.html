@@ -57,7 +57,10 @@
 		<h3>Part 1: Bezier curves with 1D de Casteljau subdivision</h3>
 		de Casteljau's algorithm begins with choosing an arbitrary number of points in a plane and connecting them together. Then, points are inserted on each edge through linear interpolation and those are connected together. This process repeats recursively until a final point is found that defines the Bezier curve. To implement this, we implemented functions that did one step of this algorithm in 2D and 3D, using for loops to iterate over all pairs of adjacent points and compute the linearly interpolated point between each pair. Then the last function recursively calls "evaluateStep" on the input points until only one is left, which is the one we're looking for. 
 
+		<!--
 		<p>Here is an example 2x2 gridlike structure using an HTML table. Each <b>tr</b> is a row and each <b>td</b> is a column in that row. You might find this useful for framing and showing your result images in an organized fashion.</p>
+		-->
+
 		<div style="display: flex; flex-direction: column; align-items: center;">
 			<table style="width: 100%; text-align: center; border-collapse: collapse;">
 			  <tr>
@@ -104,6 +107,7 @@
 		</div>
 
 		<h3>Part 2: Bezier surfaces with separable 1D de Casteljau</h3>
+		de Casteljau algorithms extend to Bezier surfaces because the process is the same recursive interpolation used in Bezier curves but extended to two dimensions. For any point on the surface, the algorithm performs the 1D evaluation along one direction of the grid with parameter u, then again in the orthogonal direction with parameter v. In our implementation, we first loop through each row of control points and call evaluate1D with parameter u to compute an intermediate point for each row. These intermediate points are stored in a temporary vector. We then call evaluate1D again on this vector with parameter v, which evaluates the final Bézier curve and returns the point on the Bézier surface at (u, v).
 
 		<figure>
 			<img src="img8.png" alt="Teapot" style="width:50%"/>
