@@ -136,7 +136,25 @@
 		</div>
 
 		<h3>Part 4: Edge flip</h3>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		<!--"Briefly explain how you implemented the edge flip operation and describe any interesting implementation / debugging tricks you have used."-->
+		We first recognize that we can't flip our edge if it's a boundary edge so we create an "if" condition for that. Now, we identify all of the 6 half-edges, 4 vertices, 4 other edges, and 2 faces by giving each their own variable. We then reassign halfedge vertices, halfedge next pointers, halfedge faces, face halfedges, vertex halfedges, and the edge halfedge. I wouldn't call it a trick but I think we did a really good job at keeping our code organized -- every line of our code only had one -> arrow in it and I think that made it very readable. Additionally, drawing out a diagram and explicitly working through all the reassignments was very helpful.
+
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="beforeFlips.png" width="400px"/>
+				  <figcaption>Before edge flips</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="afterFlips.png" width="400px"/>
+				  <figcaption>After edge flips</figcaption>
+				</td>
+			  </tr>
+			</table>
+		</div>
+
+
 
 		<h3>Part 5: Edge split</h3>
 		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
