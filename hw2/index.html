@@ -118,7 +118,22 @@
 		<h2>Section II: Triangle Meshes and Half-Edge Data Structure</h2>
 
 		<h3>Part 3: Area-weighted vertex normals</h3>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		Starting from the vertex’s half-edge, we get the coordinates of the three vertices of the corresponding triangle. We then compute two edge vectors from these points and compute the face normal by taking the cross product of these vectors. Since the magnitude of the cross product is proportional to twice the triangle’s area, each cross product weights each face normal by its area. After summing the normals for all faces by using twin()->next() to get to the next half-edge, we normalize the resulting vector to produce the unit vertex normal.
+
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="beforeQ.png" width="400px"/>
+				  <figcaption>Shading without vertex normals</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="afterQ.png" width="400px"/>
+				  <figcaption>Shading with vertex normals</figcaption>
+				</td>
+			  </tr>
+			</table>
+		</div>
 
 		<h3>Part 4: Edge flip</h3>
 		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
