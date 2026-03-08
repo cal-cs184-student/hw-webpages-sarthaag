@@ -157,7 +157,36 @@
 		Our debugging journey was not very eventful.
 
 		<h3>Part 5: Edge split</h3>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		<!-- Briefly explain how you implemented the edge split operation and describe any interesting implementation / debugging tricks you have used. -->
+		We implemented edge split by first collecting the local halfedge neighborhood around the selected edge and then separating the logic into two cases: interior edges and boundary edges. For an interior edge, we created a new midpoint vertex, three new edges, six new halfedges, and two new faces, then rewired the local connectivity so that the original two triangles were replaced by four smaller triangles. We updated the next, twin, vertex, edge, and face pointers for every halfedge in the affected region, and then reset representative halfedge pointers for all involved vertices, edges, and faces. We also assigned the new vertex’s position to the midpoint of the original edge and marked newly created elements appropriately for later subdivision steps. For the extra credit boundary case, we treated the boundary halfedge and interior halfedge separately. Instead of splitting two interior triangles, we only split the single non-boundary face and updated the virtual boundary loop by replacing the original boundary segment with two boundary halfedges meeting at the new midpoint vertex. This let the operation work correctly on meshes with open boundaries as well as closed meshes.
+
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="beforeFlips.png" width="400px"/>
+				  <figcaption>Before edge splits</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="afterSplits.png" width="400px"/>
+				  <figcaption>After edge splits</figcaption>
+				</td>
+			  </tr>
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="beforeFlips.png" width="400px"/>
+				  <figcaption>Before edge splits and flips</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="afterBoth.png" width="400px"/>
+				  <figcaption>After edge splits and flips</figcaption>
+				</td>
+			  </tr>
+			</table>
+		</div>
+
+		Our debugging journey was not very eventful.
+		<!-- TODO: screenshots of boundary edges-->
 
 		<h3>Part 6: Loop subdivision for mesh upsampling</h3>
 		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
