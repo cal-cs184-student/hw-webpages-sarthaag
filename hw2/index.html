@@ -216,7 +216,13 @@
 			</table>
 		</div>
 
+		Yes, the cube can be pre-processed to subdivide symmetrically. The iterations above cause asymmetry because there is a directional bias in the mesh introduced by the edges along the diagonals of the faces. And loop subdivision operates on triangles so it respects this connectivity, causing asymmetry. We pre-processed by simply splitting the edge on each face of the cube, to create an "X" on each face. This resolves the symmetry issue since every face looks the exact same now. See below for results:
 		
+		<figure>
+			<img src="symmetric.png" alt="Teapot" style="width:50%"/>
+			<figcaption>Loop subdivision after pre-processing</figcaption>
+		</figure>
+
 
 
 		<h2>(Optional) Section III: Potential Extra Credit - Art Competition: Model something Creative</h2>
