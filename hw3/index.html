@@ -51,6 +51,7 @@
 		<h2>Part 1: Ray Generation and Scene Intersection</h2>
 		For each pixel, I estimate its final color by taking multiple sub-pixel samples and averaging their radiance values. Each sample starts from the pixel corner in image space, where the image origin is at the bottom left, and is jittered inside the pixel using a uniform 2D sampler. I then normalize the sample coordinates to the range [0,1] in both x and y and pass them into camera->generate_ray(x,y). In ray generation, I map normalized coordinates to the camera sensor plane at z = -1, where the sensor extends from -tan(hFov/2) to tan(hFov/2) in x and from -tan(vFov/2) to tan(vFov/2) in y. That gives a camera-space direction (sensor_x, sensor_y, -1), which I rotate into world space using c2w, normalize, and pair with camera position pos to form the final ray. I initialize ray.min_t and ray.max_t with nClip and fClip so only visible distances are considered. During tracing, BVH calls primitive intersection tests, and each valid hit updates ray.max_t so farther hits are ignored, which guarantees that shading uses the nearest visible surface along the ray.
 		
+		
 		I implemented triangle intersection using the Moller-Trumbore method. I first compute two triangle edge vectors, e1 = p2 - p1 and e2 = p3 - p1, then use cross and dot products to solve for barycentric coordinates and ray time in one compact test. If the determinant is near zero, the ray is parallel to the triangle plane and I reject it. Otherwise, I compute barycentric values b1 and b2 and reject any solution outside the triangle bounds, meaning b1 < 0, b2 < 0, or b1 + b2 > 1. Next I compute intersection time t and reject if it is outside [ray.min_t, ray.max_t]. On a valid hit, I set ray.max_t = t, store isect->t = t, and interpolate the surface normal with barycentric weights b0 = 1 - b1 - b2, b1, and b2 over vertex normals n1, n2, and n3, then normalize that result. I also store isect->primitive = this and isect->bsdf = get_bsdf() so later shading stages have the correct geometry and material information.
 		
 		<!-- <p>Here is an example 2x2 gridlike structure using an HTML table. Each <b>tr</b> is a row and each <b>td</b> is a column in that row. You might find this useful for framing and showing your result images in an organized fashion.</p> -->
@@ -59,17 +60,17 @@
 			  <tr>
 				<td style="text-align: center;">
 				  <img src="box.png" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
+				  <figcaption>CBEmpty.dae</figcaption>
 				</td>
 				<td style="text-align: center;">
 				  <img src="boxballs.png" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
+				  <figcaption>CBspheres.dae</figcaption>
 				</td>
 			  </tr>
 			  <tr>
 				<td style="text-align: center;">
 				  <img src="banana.png" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
+				  <figcaption>banana.dae</figcaption>
 				</td>
 			  </tr>
 			</table>
