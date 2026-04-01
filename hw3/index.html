@@ -87,7 +87,13 @@
 		<br>
 		I built the BVH recursively from a range of primitives. For each recursive call, I first compute the bounding box of all primitives in the current range and create a BVH node from that box. If the number of primitives in that range is less than or equal to max_leaf_size, I make a leaf by storing start and end iterators and return. Otherwise, I compute a centroid bounding box and choose the split axis as the one with the largest centroid extent (x, y, or z). I then choose the split point as the midpoint of the centroid box along that axis and partition primitives by whether their centroid falls to the left or right of that split point. To prevent degenerate recursion when all primitives end up on one side, I use a fallback median split with nth_element, and if the split is still degenerate I terminate as a leaf. This gives a robust tree that avoids infinite recursion and usually produces balanced partitions with low traversal cost.
 		<br> <br> 
-		<strong> </strong>
+		<strong> Show images with normal shading for a few large .dae files that you can only render with BVH acceleration.</strong>
+		<br>
+		images go here 
+		<br> <br>
+		<strong> Compare rendering times on a few scenes with moderately complex geometries with and without BVH acceleration. Present your results in a one-paragraph analysis.		</strong>
+		<br> 
+		With my BVH implementation, rendering times on complex scenes are very low: cow.dae rendered in 0.0498s, maxplanck.dae in 0.0579s, and CBlucy.dae in 0.0284s at 800x600, -t 8, -s 1. The run statistics also show low average primitive intersection tests per ray (about 6.22 for cow, 6.36 for maxplanck, and 2.86 for CBlucy), which confirms that most primitive tests are being culled by bounding boxes before leaf testing. In contrast, without a proper BVH traversal, rays effectively test against nearly all primitives, so runtime scales much worse with scene complexity. Overall, the BVH changes reduce practical render cost from near linear primitive testing per ray toward logarithmic traversal behavior, making previously slow scenes render in a fraction of a second on this setup.
 
 		<h2>Part 3: Direct Illumination</h2>
 		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
