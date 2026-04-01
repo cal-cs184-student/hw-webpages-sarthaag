@@ -27,18 +27,18 @@
 	</head>
 	<body>
 		<div class="container">
-		<h1>CS184/284A Spring 2025 Homework 3 Write-Up</h1>
-		<div style="text-align: center;">Names: </div>
+		<h1>CS184/284A Spring 2026 Homework 3 Write-Up</h1>
+		<div style="text-align: center;">Names: Yousif Yacoby, Sarthak Agrawal</div>
 
 		<br>
 
-		Link to webpage: (TODO) <a href="https://cs184.eecs.berkeley.edu/sp25">cs184.eecs.berkeley.edu/sp25</a>
-		Link to GitHub repository: (TODO) <a href="https://cs184.eecs.berkeley.edu/sp25">cs184.eecs.berkeley.edu/sp25</a>
+		Link to webpage: (TODO) <a href="https://cs184.eecs.berkeley.edu/sp25">https://cal-cs184-student.github.io/hw-webpages-sarthaag/hw3/index.html</a>
+		Link to GitHub repository: (TODO) <a href="https://cs184.eecs.berkeley.edu/sp25">https://github.com/cal-cs184-student/hw3-pathtracer-bruhmoment</a>
 		
-		<figure>
+		<!-- <figure>
 			<img src="cornell.png" alt="Cornell Boxes with Bunnies" style="width:70%"/>
 			<figcaption>You can add images with captions!</figcaption>
-		</figure>
+		</figure> -->
 
 		<!--
 		We've already added one heading per part, to make your write-up as navigable when grading. Please fit your write-up within these sections!
@@ -48,9 +48,11 @@
 		Give a high-level overview of what you implemented in this homework. Think about what you've built as a whole. Share your thoughts on what interesting things you've learned from completing the homework.
 
 		<h2>Part 1: Ray Generation and Scene Intersection</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-
-		<p>Here is an example 2x2 gridlike structure using an HTML table. Each <b>tr</b> is a row and each <b>td</b> is a column in that row. You might find this useful for framing and showing your result images in an organized fashion.</p>
+		For each pixel, I estimate its final color by taking multiple sub-pixel samples and averaging their radiance values. Each sample starts from the pixel corner in image space, where the image origin is at the bottom left, and is jittered inside the pixel using a uniform 2D sampler. I then normalize the sample coordinates to the range [0,1] in both x and y and pass them into camera->generate_ray(x,y). In ray generation, I map normalized coordinates to the camera sensor plane at z = -1, where the sensor extends from -tan(hFov/2) to tan(hFov/2) in x and from -tan(vFov/2) to tan(vFov/2) in y. That gives a camera-space direction (sensor_x, sensor_y, -1), which I rotate into world space using c2w, normalize, and pair with camera position pos to form the final ray. I initialize ray.min_t and ray.max_t with nClip and fClip so only visible distances are considered. During tracing, BVH calls primitive intersection tests, and each valid hit updates ray.max_t so farther hits are ignored, which guarantees that shading uses the nearest visible surface along the ray.
+		
+		I implemented triangle intersection using the Moller-Trumbore method. I first compute two triangle edge vectors, e1 = p2 - p1 and e2 = p3 - p1, then use cross and dot products to solve for barycentric coordinates and ray time in one compact test. If the determinant is near zero, the ray is parallel to the triangle plane and I reject it. Otherwise, I compute barycentric values b1 and b2 and reject any solution outside the triangle bounds, meaning b1 < 0, b2 < 0, or b1 + b2 > 1. Next I compute intersection time t and reject if it is outside [ray.min_t, ray.max_t]. On a valid hit, I set ray.max_t = t, store isect->t = t, and interpolate the surface normal with barycentric weights b0 = 1 - b1 - b2, b1, and b2 over vertex normals n1, n2, and n3, then normalize that result. I also store isect->primitive = this and isect->bsdf = get_bsdf() so later shading stages have the correct geometry and material information.
+		
+		<!-- <p>Here is an example 2x2 gridlike structure using an HTML table. Each <b>tr</b> is a row and each <b>td</b> is a column in that row. You might find this useful for framing and showing your result images in an organized fashion.</p> -->
 		<div style="display: flex; flex-direction: column; align-items: center;">
 			<table style="width: 100%; text-align: center; border-collapse: collapse;">
 			  <tr>
