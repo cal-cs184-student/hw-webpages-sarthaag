@@ -130,6 +130,7 @@
 			  </tr>
 			</table>
 		</div>
+		<br> <br> 
 		<strong> Focus on one particular scene with at least one area light and compare the noise levels in soft shadows when rendering with 1, 4, 16, and 64 light rays (the -l flag) and with 1 sample per pixel (the -s flag) using light sampling, not uniform hemisphere sampling.</strong>
 		<br>
 		<div style="display: flex; flex-direction: column; align-items: center;">
@@ -156,6 +157,7 @@
 			  </tr>
 			</table>
 		</div>
+		<br> <br> 
 		<strong> Compare the results between uniform hemisphere sampling and lighting sampling in a one-paragraph analysis.		</strong>
 		<br>
 		As expected, noise decreases significantly as light samples increase from 1 to 64. At l = 1, soft shadows are very grainy and unstable, especially in the floor and wall penumbra regions. At l = 4, noise is still visible but the major shadow structure is clearer. At l = 16, the shadow boundaries and indirect-looking dark regions are much more stable. At l = 64, the image is substantially smoother with cleaner penumbra gradients. Compared to uniform hemisphere sampling, light importance sampling is noticeably less noisy at equal sample budgets because it spends samples in directions that are actually likely to contribute radiance from scene lights.
