@@ -111,7 +111,53 @@
 		<br> 
 		With our BVH implementation, rendering times on complex scenes are very low: cow.dae rendered in 0.0498s, maxplanck.dae in 0.0579s, and CBlucy.dae in 0.0284s at 800x600, -t 8, -s 1. The run statistics also show low average primitive intersection tests per ray (about 6.22 for cow, 6.36 for maxplanck, and 2.86 for CBlucy), which confirms that most primitive tests are being culled by bounding boxes before leaf testing. In contrast, without a proper BVH traversal, rays effectively test against nearly all primitives, so runtime scales much worse with scene complexity. Overall, the BVH changes reduce practical render cost from near linear primitive testing per ray toward logarithmic traversal behavior, making previously slow scenes render in a fraction of a second on this setup.
 		<h2>Part 3: Direct Illumination</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		<strong> Walk through both implementations of the direct lighting function.		</strong>
+		<br>
+		For this part, I implemented direct lighting in two ways and compared their behavior. I first implemented DiffuseBSDF::f as a Lambertian BRDF, reflectance / PI, so the surface reflects light equally in all directions over the hemisphere. I then implemented zero-bounce radiance so emissive surfaces (like the ceiling light) directly contribute emission when hit by a camera ray. After that, I implemented one-bounce direct lighting with two estimators: uniform hemisphere sampling and importance sampling of lights. In the uniform hemisphere implementation, I estimate incoming light at a hit point by sampling random directions over the hemisphere in local coordinates, transforming each sample to world space, and tracing a shadow ray from the hit point. If the sampled direction reaches an emissive surface without being blocked, I accumulate contribution using the Monte Carlo estimator with BRDF term, cosine term, and sampling PDF normalization. This method is unbiased but noisy, since many sampled directions do not hit a light source. In the importance sampling implementation, I sample each light directly instead of sampling arbitrary hemisphere directions. For each sampled light direction, I cast a shadow ray toward the light with min_t = EPS_F and max_t = distToLight - EPS_F to test visibility. If unoccluded and above the surface hemisphere, I accumulate contribution using BRDF, cosine, emitted radiance, and light PDF. I also use one sample for delta lights and multiple samples for area lights. This estimator has much lower variance for direct lighting and converges much faster in soft shadow regions.
+		<br> <br> 
+		<strong> Show some images rendered with both implementations of the direct lighting function.		</strong>
+		<br> 
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="CBbunny_screenshot_4-1_20-28-41.png" width="400px"/>
+				  <figcaption>Lighting by Uniform Hemisphere Sampling</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="CBbunny_screenshot_4-1_20-30-4.png" width="400px"/>
+				  <figcaption>Lighting by Importance Sampling Lights</figcaption>
+				</td>
+			  </tr>
+			</table>
+		</div>
+		<strong> Focus on one particular scene with at least one area light and compare the noise levels in soft shadows when rendering with 1, 4, 16, and 64 light rays (the -l flag) and with 1 sample per pixel (the -s flag) using light sampling, not uniform hemisphere sampling.</strong>
+		<br>
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="CBbunny_screenshot_4-1_20-30-11.png" width="400px"/>
+				  <figcaption>1 light ray</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="CBbunny_screenshot_4-1_20-30-20.png" width="400px"/>
+				  <figcaption>4 light rays</figcaption>
+				</td>
+			  </tr>
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="CBbunny_screenshot_4-1_20-30-29.png" width="400px"/>
+				  <figcaption>16 light rays</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="CBbunny_screenshot_4-1_20-30-43.png" width="400px"/>
+				  <figcaption>64 light rays</figcaption>
+				</td>
+			  </tr>
+			</table>
+		</div>
+
 
 		<h2>Part 4: Global Illumination</h2>
 		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
