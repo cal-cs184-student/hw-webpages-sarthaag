@@ -378,18 +378,65 @@
 		</div>
 
 		<h2>(Optional) Part 6: Extra Credit Opportunities</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-		
-		<h2>Additional Notes (please remove)</h2>
-		<ul>
-			<li>You can also add code if you'd like as so: <code>code code code</code></li>
-			<li>If you'd like to add math equations, 
-				<ul>
-					<li>You can write inline equations like so: \( a^2 + b^2 = c^2 \)</li>
-					<li>You can write display equations like so: \[ a^2 + b^2 = c^2 \]</li>
-				</ul>
-			</li>
-		</ul>
+		We implemented three extra-credit improvements focused on sampling quality and BVH performance: a low-discrepancy pixel sampler, SAH-based BVH splitting, and iterative stack-based BVH traversal. These are all integrated into the existing renderer and validated with rendered outputs and timing logs generated via -f output files.
+		<br>
+		For pixel sampling, we added a new LowDiscrepancySampler2D that generates pseudorandom low-discrepancy samples using a Halton sequence (bases 2 and 3) with a per-thread Cranley-Patterson random rotation. This keeps sample coverage more even than purely uniform random jitter while avoiding obvious structured artifacts. We compared PT_SAMPLER=uniform against PT_SAMPLER=ld at low sample count (s=4) on CBbunny. The low-discrepancy image (ec_sampler_lowdisc_s4.png) shows visibly reduced clumping and noise compared with the uniform image (ec_sampler_uniform_s4.png) at the same sample budget.
+		<br>
+		For BVH construction, we replaced the naive split heuristic with a binned SAH approximation in construct_bvh (12 bins on the chosen axis). We still choose the split axis from the largest centroid extent, evaluate split costs across bin boundaries using bounding-box surface area and primitive counts, and fall back to median splitting when SAH would become degenerate. This keeps construction robust while producing better node partitioning on complex scenes. We also added a runtime toggle (BVH_SPLIT=median) so we could benchmark the old and new behavior directly.
+		<br>
+		For BVH traversal, we implemented iterative traversal in both has_intersection and intersect using std::stack, with near-first child ordering when both children are hit. This avoids recursive call overhead and improves cache behavior on deep trees. We kept a runtime toggle (BVH_TRAVERSAL=recursive) to compare against the recursive baseline implementation.
+		<br>
+		We benchmarked baseline mode (PT_SAMPLER=uniform, BVH_SPLIT=median, BVH_TRAVERSAL=recursive) versus optimized mode (PT_SAMPLER=ld, default SAH, and iterative traversal) on cow.dae, maxplanck.dae, and CBlucy.dae using -s 1 -r 800 600. From the logs, optimized mode consistently reduced intersection tests per ray and improved render time. For example, on a quick cow test, the baseline path reported about 14.87 intersection tests per ray and 0.0190s render time, while optimized mode reported about 7.36 intersection tests per ray and 0.0135s. This trend matches expectation: SAH improves culling quality and iterative traversal reduces traversal overhead.
+		<br>
+		Relevant images included in this section are ec_sampler_uniform_s4.png, ec_sampler_lowdisc_s4.png, ec_cow_baseline.png, ec_cow_opt.png, ec_maxplanck_baseline.png, ec_maxplanck_opt.png, ec_CBlucy_baseline.png, and ec_CBlucy_opt.png. Timing and intersection evidence comes from logs in docs/bench/ec_*.log. All images were generated through the renderer output path (-f) to satisfy screenshot and output requirements.
+		<br>
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="ec_sampler_uniform_s4.png" width="400px"/>
+				  <figcaption>ec_sampler_uniform_s4.png</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="ec_sampler_lowdisc_s4.png" width="400px"/>
+				  <figcaption>ec_sampler_lowdisc_s4.png</figcaption>
+				</td>
+			  </tr>
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="ec_cow_baseline.png" width="400px"/>
+				  <figcaption>ec_cow_baseline.png</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="ec_cow_opt.png" width="400px"/>
+				  <figcaption>ec_cow_opt.png</figcaption>
+				</td>
+			  </tr>
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="ec_maxplanck_baseline.png" width="400px"/>
+				  <figcaption>ec_maxplanck_baseline.png</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="ec_maxplanck_opt.png" width="400px"/>
+				  <figcaption>ec_maxplanck_opt.png</figcaption>
+				</td>
+			  </tr>
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="ec_CBlucy_baseline.png" width="400px"/>
+				  <figcaption>ec_CBlucy_baseline.png</figcaption>
+				</td>
+			  </tr>
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="ec_CBlucy_opt.png" width="400px"/>
+				  <figcaption>ec_CBlucy_opt.png</figcaption>
+				</td>
+			  </tr>
+			</table>
 		</div>
+		<!-- ADD IMAGES TO THE PART 4 ONLY DIRECT VS ONLY INDIRECT  -->
+		
 	</body>
 </html>
