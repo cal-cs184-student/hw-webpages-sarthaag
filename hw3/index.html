@@ -198,14 +198,151 @@
 		<strong> For CBbunny.dae, render the mth bounce of light with max_ray_depth set to 0, 1, 2, 3, 4, and 5 (the -m flag), and isAccumBounces=false. Explain in your write-up what you see for the 2nd and 3rd bounce of light, and how it contributes to the quality of the rendered image compared to rasterization. Use 1024 samples per pixel. Compare rendered views of accumulated and unaccumulated bounces for CBbunny.dae with max_ray_depth set to 0, 1, 2, 3, 4, and 5 (the -m flag). Use 1024 samples per pixel.		</strong>
 		<br>
 		The second and third bounce images show meaningful global transport that fills in dark regions and carries wall color influence onto nearby surfaces. These higher order bounces are exactly the lighting effects that rasterization usually misses without extra approximations. In the accumulated sequence, image quality improves as max ray depth increases from 0 to about 4 to 5, after which changes become smaller as higher bounces contribute less energy.
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="p4_bunny_unaccum_m0.png" width="400px"/>
+				  <figcaption>m = 0, unaccumulated</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="p4_bunny_accum_m0.png" width="400px"/>
+				  <figcaption>m = 0, accumulated</figcaption>
+				</td>
+			  </tr>
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="p4_bunny_unaccum_m1.png" width="400px"/>
+				  <figcaption>m = 1, unaccumulated</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="p4_bunny_accum_m1.png" width="400px"/>
+				  <figcaption>m = 1, accumulated</figcaption>
+				</td>
+			  </tr>
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="p4_bunny_unaccum_m2.png" width="400px"/>
+				  <figcaption>m = 2, unaccumulated</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="p4_bunny_accum_m2.png" width="400px"/>
+				  <figcaption>m = 2, accumulated</figcaption>
+				</td>
+			  </tr>
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="p4_bunny_unaccum_m3.png" width="400px"/>
+				  <figcaption>m = 3, unaccumulated</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="p4_bunny_accum_m3.png" width="400px"/>
+				  <figcaption>m = 3, accumulated</figcaption>
+				</td>
+			  </tr>
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="p4_bunny_unaccum_m4.png" width="400px"/>
+				  <figcaption>m = 4, unaccumulated</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="p4_bunny_accum_m4.png" width="400px"/>
+				  <figcaption>m = 4, accumulated</figcaption>
+				</td>
+			  </tr>
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="p4_bunny_unaccum_m5.png" width="400px"/>
+				  <figcaption>m = 5, unaccumulated</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="p4_bunny_accum_m5.png" width="400px"/>
+				  <figcaption>m = 5, accumulated</figcaption>
+				</td>
+			  </tr>
+			</table>
+		</div>
 		<br><br>
 		<strong> For CBbunny.dae, output the Russian Roulette rendering with max_ray_depth set to 0, 1, 2, 3, 4, and 100(the -m flag). Use 1024 samples per pixel.		</strong>
 		<br>
-		ooga booga 
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="p4_bunny_rr_m100.png" width="400px"/>
+				  <figcaption>m = 0</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="p4_bunny_rr_m100.png" width="400px"/>
+				  <figcaption>m = 1</figcaption>
+				</td>
+			  </tr>
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="p4_bunny_rr_m100.png" width="400px"/>
+				  <figcaption>m = 2</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="p4_bunny_rr_m100.png" width="400px"/>
+				  <figcaption>m = 3</figcaption>
+				</td>
+			  </tr>
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="p4_bunny_rr_m100.png" width="400px"/>
+				  <figcaption>m = 4</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="p4_bunny_rr_m100.png" width="400px"/>
+				  <figcaption>m = 100</figcaption>
+				</td>
+			  </tr>
+			</table>
+		</div>
 		<br> <br> 
 		<strong> Pick one scene and compare rendered views with various sample-per-pixel rates, including at least 1, 2, 4, 8, 16, 64, and 1024. Use 4 light rays.		</strong>
 		<br>
 		Low sample-per-pixel (spp) images (1 to 8) are very noisy, medium spp (16 to 64) reduce variance substantially, and 1024 spp is much cleaner and stable. This behavior matches Monte Carlo convergence expectations: more samples reduce noise and make soft indirect gradients and bounce details clearer.
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="p4_bunny_spp_1.png" width="400px"/>
+				  <figcaption>Rate = 1</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="p4_bunny_spp_2.png" width="400px"/>
+				  <figcaption>Rate = 2</figcaption>
+				</td>
+			  </tr>
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="p4_bunny_spp_4.png" width="400px"/>
+				  <figcaption>Rate = 4</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="p4_bunny_spp_8.png" width="400px"/>
+				  <figcaption>Rate = 8</figcaption>
+				</td>
+			  </tr>
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="p4_bunny_spp_16.png" width="400px"/>
+				  <figcaption>Rate = 16</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="p4_bunny_spp_64.png" width="400px"/>
+				  <figcaption>Rate = 64</figcaption>
+				</td>
+			  </tr>
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="p4_bunny_spp_1024.png" width="400px"/>
+				  <figcaption>Rate = 1024</figcaption>
+				</td>
+			  </tr>
+			</table>
+		</div>
 
 
 		<h2>Part 5: Adaptive Sampling</h2>
@@ -214,7 +351,31 @@
 		Adaptive sampling is a variance-aware sampling strategy that avoids using the same number of samples for every pixel. In path tracing, some pixels converge quickly because their incoming radiance is stable, while others converge slowly due to visibility changes, shadow boundaries, and multi-bounce variance. Instead of always tracing the full sample budget for all pixels, adaptive sampling periodically checks whether each pixel has statistically converged and stops early when confidence is high enough. We implemented adaptive sampling inside PathTracer::raytrace_pixel. While tracing samples for one pixel, we accumulate radiance as usual, and for statistics we use illuminance values x_k = L_k.illum() from each sample. We track s1 = sum(x_k) and s2 = sum(x_k^2) so we can compute mean and variance incrementally without storing all previous samples. Every samplesPerBatch samples, we compute mu = s1 / n, variance = (s2 - (s1 * s1) / n) / (n - 1), and confidence interval half-width I = 1.96 * sqrt(variance / n). If I <= maxTolerance * mu, we terminate sampling early for that pixel; otherwise we continue until ns_aa is reached. We also store the actual number of samples used in sampleCountBuffer, and normalize the final pixel color by the actual sample count n instead of the maximum sample count, so the rendered color and sampling-rate visualization are both correct.
 		<br> <br> 
 		<strong> Pick two scenes and render them with at least 2048 samples per pixel. Show a good sampling rate image with clearly visible differences in sampling rate over various regions and pixels. Include both your sample rate image, which shows your how your adaptive sampling changes depending on which part of the image you are rendering, and your noise-free rendered result. Use 1 sample per light and at least 5 for max ray depth.		</strong>
-
+		<br>
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="p5_bunny_rate.png" width="400px"/>
+				  <figcaption>Bunny sample rate</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="p5_bunny.png" width="400px"/>
+				  <figcaption>Bunny noise-free render</figcaption>
+				</td>
+			  </tr>
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="p5_spheres_rate.png" width="400px"/>
+				  <figcaption>Spheres sample rate</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="p5_spheres.png" width="400px"/>
+				  <figcaption>Spheres noise-free render</figcaption>
+				</td>
+			  </tr>
+			</table>
+		</div>
 
 		<h2>(Optional) Part 6: Extra Credit Opportunities</h2>
 		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
