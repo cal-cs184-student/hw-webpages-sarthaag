@@ -113,7 +113,7 @@
 		<h2>Part 3: Direct Illumination</h2>
 		<strong> Walk through both implementations of the direct lighting function.		</strong>
 		<br>
-		For this part, we implemented direct lighting in two ways and compared their behavior. We first implemented DiffuseBSDF::f as a Lambertian BRDF, reflectance / PI, so the surface reflects light equally in all directions over the hemisphere. We then implemented zero-bounce radiance so emissive surfaces (like the ceiling light) directly contribute emission when hit by a camera ray. After that, we implemented one-bounce direct lighting with two estimators: uniform hemisphere sampling and importance sampling of lights. In the uniform hemisphere implementation, we estimate incoming light at a hit point by sampling random directions over the hemisphere in local coordinates, transforming each sample to world space, and tracing a shadow ray from the hit point. If the sampled direction reaches an emissive surface without being blocked, we accumulate contribution using the Monte Carlo estimator with BRDF term, cosine term, and sampling PDF normalization. This method is unbiased but noisy, since many sampled directions do not hit a light source. In the importance sampling implementation, we sample each light directly instead of sampling arbitrary hemisphere directions. For each sampled light direction, we cast a shadow ray toward the light with min_t = EPS_F and max_t = distToLight - EPS_F to test visibility. If unoccluded and above the surface hemisphere, we accumulate contribution using BRDF, cosine, emitted radiance, and light PDF. We also use one sample for delta lights and multiple samples for area lights. This estimator has much lower variance for direct lighting and converges much faster in soft shadow regions.		<br> <br> 
+		We first implemented DiffuseBSDF::f as a Lambertian BRDF, reflectance / PI, so the surface reflects light equally in all directions over the hemisphere. We then implemented zero-bounce radiance so emissive surfaces (like the ceiling light) directly contribute emission when hit by a camera ray. After that, we implemented one-bounce direct lighting with two estimators: uniform hemisphere sampling and importance sampling of lights. In the uniform hemisphere implementation, we estimate incoming light at a hit point by sampling random directions over the hemisphere in local coordinates, transforming each sample to world space, and tracing a shadow ray from the hit point. If the sampled direction reaches an emissive surface without being blocked, we accumulate contribution using the Monte Carlo estimator with BRDF term, cosine term, and sampling PDF normalization. This method is unbiased but noisy, since many sampled directions do not hit a light source. In the importance sampling implementation, we sample each light directly instead of sampling arbitrary hemisphere directions. For each sampled light direction, we cast a shadow ray toward the light with min_t = EPS_F and max_t = distToLight - EPS_F to test visibility. If unoccluded and above the surface hemisphere, we accumulate contribution using BRDF, cosine, emitted radiance, and light PDF. We also use one sample for delta lights and multiple samples for area lights. This estimator has much lower variance for direct lighting and converges much faster in soft shadow regions.		<br> <br> 
 		<strong> Show some images rendered with both implementations of the direct lighting function.		</strong>
 		<br> 
 		<div style="display: flex; flex-direction: column; align-items: center;">
@@ -174,18 +174,12 @@
 			<table style="width: 100%; text-align: center; border-collapse: collapse;">
 			  <tr>
 				<td style="text-align: center;">
-				  <img src="p4_bunny_accum_m1.png" width="400px"/>
+				  <img src="p4_gi_bunny_1024.png" width="400px"/>
 				  <figcaption>Image 1</figcaption>
 				</td>
 				<td style="text-align: center;">
-				  <img src="p4_gi_bunny_1024.png" width="400px"/>
-				  <figcaption>Image 2</figcaption>
-				</td>
-			  </tr>
-			  <tr>
-				<td style="text-align: center;">
 				  <img src="p4_gi_spheres_1024.png" width="400px"/>
-				  <figcaption>Image 3</figcaption>
+				  <figcaption>Image 2</figcaption>
 				</td>
 			  </tr>
 			</table>
