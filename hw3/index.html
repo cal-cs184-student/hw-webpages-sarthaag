@@ -174,22 +174,18 @@
 			<table style="width: 100%; text-align: center; border-collapse: collapse;">
 			  <tr>
 				<td style="text-align: center;">
-				  <img src="" width="400px"/>
-				  <figcaption>Direct illumination</figcaption>
+				  <img src="p4_bunny_accum_m1.png" width="400px"/>
+				  <figcaption>Image 1</figcaption>
 				</td>
 				<td style="text-align: center;">
-				  <img src="CBbunny_screenshot_4-1_20-30-20.png" width="400px"/>
-				  <figcaption>Indirect illumination</figcaption>
+				  <img src="p4_gi_bunny_1024.png" width="400px"/>
+				  <figcaption>Image 2</figcaption>
 				</td>
 			  </tr>
 			  <tr>
 				<td style="text-align: center;">
-				  <img src="CBbunny_screenshot_4-1_20-30-29.png" width="400px"/>
-				  <figcaption>16 light rays</figcaption>
-				</td>
-				<td style="text-align: center;">
-				  <img src="CBbunny_screenshot_4-1_20-30-43.png" width="400px"/>
-				  <figcaption>64 light rays</figcaption>
+				  <img src="p4_gi_spheres_1024.png" width="400px"/>
+				  <figcaption>Image 3</figcaption>
 				</td>
 			  </tr>
 			</table>
@@ -199,14 +195,10 @@
 		<br> 
 		The global illumination renders show clear indirect effects such as softer shading transitions and color bleeding compared to direct-only results. In CBbunny and CBspheres_lambertian, indirect bounces brighten shadowed regions and add realism that cannot be produced by only direct illumination. The direct-only render preserves strong first-hit shadows, while the indirect-only render isolates bounced light contribution and shows how much of the final image comes from secondary transport.
 		<br> <br> 
-		<strong> For CBbunny.dae, render the mth bounce of light with max_ray_depth set to 0, 1, 2, 3, 4, and 5 (the -m flag), and isAccumBounces=false. Explain in your write-up what you see for the 2nd and 3rd bounce of light, and how it contributes to the quality of the rendered image compared to rasterization. Use 1024 samples per pixel.		</strong>
-		<br>
-		ooga booga 
-		<br><br>
-		<strong> Compare rendered views of accumulated and unaccumulated bounces for CBbunny.dae with max_ray_depth set to 0, 1, 2, 3, 4, and 5 (the -m flag). Use 1024 samples per pixel.		</strong>
+		<strong> For CBbunny.dae, render the mth bounce of light with max_ray_depth set to 0, 1, 2, 3, 4, and 5 (the -m flag), and isAccumBounces=false. Explain in your write-up what you see for the 2nd and 3rd bounce of light, and how it contributes to the quality of the rendered image compared to rasterization. Use 1024 samples per pixel. Compare rendered views of accumulated and unaccumulated bounces for CBbunny.dae with max_ray_depth set to 0, 1, 2, 3, 4, and 5 (the -m flag). Use 1024 samples per pixel.		</strong>
 		<br>
 		The second and third bounce images show meaningful global transport that fills in dark regions and carries wall color influence onto nearby surfaces. These higher order bounces are exactly the lighting effects that rasterization usually misses without extra approximations. In the accumulated sequence, image quality improves as max ray depth increases from 0 to about 4 to 5, after which changes become smaller as higher bounces contribute less energy.
-		<br> <br>
+		<br><br>
 		<strong> For CBbunny.dae, output the Russian Roulette rendering with max_ray_depth set to 0, 1, 2, 3, 4, and 100(the -m flag). Use 1024 samples per pixel.		</strong>
 		<br>
 		ooga booga 
