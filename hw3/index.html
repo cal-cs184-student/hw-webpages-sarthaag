@@ -32,10 +32,7 @@
 
 		<br>
 
-		Link to webpage: <a href="https://cs184.eecs.berkeley.edu/sp25">https://cal-cs184-student.github.io/hw-webpages-sarthaag/hw3/index.html</a>
-		<br> <br>
-		Link to GitHub repository: <a href="https://cs184.eecs.berkeley.edu/sp25">https://github.com/cal-cs184-student/hw3-pathtracer-bruhmoment</a>
-		
+		Link to webpage: <a href="https://cs184.eecs.berkeley.edu/sp25">https://cal-cs184-student.github.io/hw-webpages-sarthaag/hw3/index.html</a>		
 		<!-- <figure>
 			<img src="cornell.png" alt="Cornell Boxes with Bunnies" style="width:70%"/>
 			<figcaption>You can add images with captions!</figcaption>
@@ -46,7 +43,9 @@
 		-->
 
 		<h2>Overview</h2>
-		Give a high-level overview of what you implemented in this homework. Think about what you've built as a whole. Share your thoughts on what interesting things you've learned from completing the homework.
+		For this homework, we built a path tracer that gradually developed into a much more complete rendering system. At a high level, this homework was about simulating how light moves through a scene in order to produce realistic images. We started with the basic structure needed to trace rays and detect what they hit, then added more advanced pieces like faster scene traversal, better lighting methods, global illumination, and adaptive sampling. By the end, the renderer was able to handle much more complex scenes and produce more realistic results with effects like soft lighting and indirect light bounces.
+		<br> <br>
+		What we found most interesting about this homework was seeing how all of the different parts fit together into one full pipeline. Each section felt like it added another layer of realism, so the final result felt much more like a real rendering system instead of a bunch of separate tasks. It was also interesting to see how much image quality depends not just on modeling light correctly, but also on choosing smart ways to sample it efficiently. I think this homework gave us a much better sense of how physically based rendering works in practice and how the different ideas from class connect when we actually implement them.
 
 		<h2>Part 1: Ray Generation and Scene Intersection</h2>
 		<strong> Walk through the ray generation and primitive intersection parts of the rendering pipeline.</strong>
@@ -381,8 +380,6 @@
 		For BVH traversal, we implemented iterative traversal in both has_intersection and intersect using std::stack, with near-first child ordering when both children are hit. This avoids recursive call overhead and improves cache behavior on deep trees. We kept a runtime toggle (BVH_TRAVERSAL=recursive) to compare against the recursive baseline implementation.
 		<br> <br>
 		We benchmarked baseline mode (PT_SAMPLER=uniform, BVH_SPLIT=median, BVH_TRAVERSAL=recursive) versus optimized mode (PT_SAMPLER=ld, default SAH, and iterative traversal) on cow.dae, maxplanck.dae, and CBlucy.dae using -s 1 -r 800 600. From the logs, optimized mode consistently reduced intersection tests per ray and improved render time. For example, on a quick cow test, the baseline path reported about 14.87 intersection tests per ray and 0.0190s render time, while optimized mode reported about 7.36 intersection tests per ray and 0.0135s. This trend matches expectation: SAH improves culling quality and iterative traversal reduces traversal overhead.
-		<br> <br>
-		Relevant images included in this section are ec_sampler_uniform_bunny_s4.png, ec_sampler_ld_bunny_s4.png, ec_bvh_baseline_cow.png, ec_bvh_opt_cow.png, ec_bvh_baseline_maxplanck.png, and ec_bvh_opt_maxplanck.png. 
 		<br>
 		<div style="display: flex; flex-direction: column; align-items: center;">
 			<table style="width: 100%; text-align: center; border-collapse: collapse;">
