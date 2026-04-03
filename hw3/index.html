@@ -164,7 +164,34 @@
 
 
 		<h2>Part 4: Global Illumination</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		<strong> Walk through your implementation of the indirect lighting function.		</strong>
+		<br>
+		We implemented full global illumination by extending the path tracer from direct lighting to recursive indirect lighting. We first verified diffuse BSDF sampling using cosine-weighted hemisphere sampling in DiffuseBSDF::sample_f, where the function samples an incoming direction wi, returns the BSDF value f(wo, wi), and stores the sample PDF. This matches the Monte Carlo estimator setup used in the rendering equation and gives more useful samples than uniform hemisphere sampling for Lambertian surfaces. We then implemented at_least_one_bounce_radiance to recursively trace indirect light paths. At each hit point, we compute direct one-bounce lighting, sample a new BSDF direction in local coordinates, transform it to world coordinates, and trace a new ray from the hit point with min_t = EPS_F to avoid self-intersection. We initialize camera ray depth to max_ray_depth in raytrace_pixel, decrement depth on each recursive bounce, and stop recursion at the depth limit. In est_radiance_global_illumination, we combine zero-bounce emission and the recursive lighting term so the renderer includes both emitted light and reflected multi-bounce transport. For Russian roulette, we added probabilistic path termination in deeper recursion so the estimator stays unbiased while avoiding unnecessary long paths. We use a continuation probability and divide by that probability when a path continues. We also keep the behavior that if max_ray_depth > 1, the algorithm traces at least one indirect bounce before roulette-based termination. This improves efficiency while preserving expected energy.
+		<br> <br>
+		<strong> Show some images rendered with global (direct and indirect) illumination. Use 1024 samples per pixel.		</strong>
+		<br>
+		ooga booga 
+		<br> <br> 
+		<strong> Pick one scene and compare rendered views first with only direct illumination, then only indirect illumination. Use 1024 samples per pixel. (You will have to edit PathTracer::at_least_one_bounce_radiance(...) in your code to generate these views.)		</strong>
+		<br> 
+		The global illumination renders show clear indirect effects such as softer shading transitions and color bleeding compared to direct-only results. In CBbunny and CBspheres_lambertian, indirect bounces brighten shadowed regions and add realism that cannot be produced by only direct illumination. The direct-only render preserves strong first-hit shadows, while the indirect-only render isolates bounced light contribution and shows how much of the final image comes from secondary transport.
+		<br> <br> 
+		<strong> For CBbunny.dae, render the mth bounce of light with max_ray_depth set to 0, 1, 2, 3, 4, and 5 (the -m flag), and isAccumBounces=false. Explain in your write-up what you see for the 2nd and 3rd bounce of light, and how it contributes to the quality of the rendered image compared to rasterization. Use 1024 samples per pixel.		</strong>
+		<br>
+		ooga booga 
+		<br><br>
+		<strong> Compare rendered views of accumulated and unaccumulated bounces for CBbunny.dae with max_ray_depth set to 0, 1, 2, 3, 4, and 5 (the -m flag). Use 1024 samples per pixel.		</strong>
+		<br>
+		The second and third bounce images show meaningful global transport that fills in dark regions and carries wall color influence onto nearby surfaces. These higher order bounces are exactly the lighting effects that rasterization usually misses without extra approximations. In the accumulated sequence, image quality improves as max ray depth increases from 0 to about 4 to 5, after which changes become smaller as higher bounces contribute less energy.
+		<br> <br>
+		<strong> For CBbunny.dae, output the Russian Roulette rendering with max_ray_depth set to 0, 1, 2, 3, 4, and 100(the -m flag). Use 1024 samples per pixel.		</strong>
+		<br>
+		ooga booga 
+		<br> <br> 
+		<strong> Pick one scene and compare rendered views with various sample-per-pixel rates, including at least 1, 2, 4, 8, 16, 64, and 1024. Use 4 light rays.		</strong>
+		<br>
+		Low sample-per-pixel (spp) images (1 to 8) are very noisy, medium spp (16 to 64) reduce variance substantially, and 1024 spp is much cleaner and stable. This behavior matches Monte Carlo convergence expectations: more samples reduce noise and make soft indirect gradients and bounce details clearer.
+
 
 		<h2>Part 5: Adaptive Sampling</h2>
 		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
