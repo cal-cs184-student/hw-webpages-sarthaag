@@ -85,25 +85,44 @@
 
 		<h2>Part 2: Simulation via numerical integration</h2>
 		For the spring constant, I tested a low value (0.1x default) and a high value (10x default), while keeping other parameters at default. With low ks, the cloth behaved much softer, stretched more, and sagged deeper before settling. It also took longer to stop moving. With high ks, the cloth resisted stretching and kept its shape better, so the final resting shape was tighter and less droopy.
-		For density, I tested a low value (0.25x default) and a high value (4x default), with ks and damping fixed. The low-density cloth looked lighter and responded more quickly to spring corrections, so it settled with less pronounced sag. The high-density cloth had more inertia, moved more heavily, and showed larger deformations before coming to rest.
-		For damping, I tested 0% and 10%, with ks and density fixed. At 0% damping, the cloth oscillated for a long time and kept swinging before settling. At 10%, motion was reduced much faster, and the cloth reached rest sooner with less visible oscillation.
-		The final shaded result from scene/pinned4.json shows the cloth in a stable resting state with realistic folds. Unless otherwise noted, I used the default scene parameters and only changed the single parameter being tested in each comparison.
+		For density, I tested a low value (0.33x default) and a high value (4x default), with ks and damping fixed. The low-density cloth looked lighter and responded more quickly to spring corrections, so it settled with less pronounced sag. The high-density cloth had more inertia, moved more heavily, and showed larger deformations before coming to rest.
+		For damping, I tested 0% and 1%, with ks and density fixed. At 0% damping, the cloth oscillated for a long time and kept swinging before settling. At 1%, motion was reduced much faster, and the cloth reached rest sooner with less visible oscillation.
 		<div style="display: flex; flex-direction: column; align-items: center;">
 			<table style="width: 100%; text-align: center; border-collapse: collapse;">
 			  <tr>
 				<td style="text-align: center;">
-				  <img src="part1.png" width="400px"/>
-				  <figcaption>Screenshot 1 of scene/pinned2.json</figcaption>
+				  <img src="part2.1.png" width="400px"/>
+				  <figcaption>Default parameters</figcaption>
 				</td>
 				<td style="text-align: center;">
-				  <img src="part1.png" width="400px"/>
-				  <figcaption>Screenshot 2 of scene/pinned2.json</figcaption>
+				  <img src="part2.2.png" width="400px"/>
+				  <figcaption>ks decreased to 500 from 5000</figcaption>
 				</td>
 			  </tr>
 			  <tr>
 				<td style="text-align: center;">
-				  <img src="part1.png" width="400px"/>
-				  <figcaption>Screenshot 3 of scene/pinned2.json</figcaption>
+				  <img src="part2.3.png" width="400px"/>
+				  <figcaption>ks increased to 50000 from 5000</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="part2.4.png" width="400px"/>
+				  <figcaption>Density decreased to 5 from 15</figcaption>
+				</td>
+			  </tr>
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="part2.5.png" width="400px"/>
+				  <figcaption>Density increased to 60 from 15</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="part2.6.png" width="400px"/>
+				  <figcaption>Damping decreased to 0%</figcaption>
+				</td>
+			  </tr>
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="part2.7.png" width="400px"/>
+				  <figcaption>Damping increased to 1%</figcaption>
 				</td>
 				<td style="text-align: center;">
 				  <img src="part2final.png" width="400px"/>
