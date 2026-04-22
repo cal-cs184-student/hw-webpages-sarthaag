@@ -107,14 +107,53 @@
 				</td>
 				<td style="text-align: center;">
 				  <img src="part2final.png" width="400px"/>
-				  <figcaption>Wireframe without shearing constraints</figcaption>
+				  <figcaption>scene/pinned4.json cloth in final resting state</figcaption>
 				</td>
 			  </tr>
 			</table>
 		</div>
 
 		<h2>Part 3: Handling collisions with other objects</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		For Part 3, I implemented collision handling for spheres and planes and added collision checks in the cloth simulation loop.
+For sphere collisions, I implemented Sphere::collide by checking whether a point mass is inside or intersecting the sphere using the distance from the sphere center. If it is inside, I compute the tangent point on the sphere surface along the direction from the sphere center to the point mass. I then compute a correction vector from last position to this tangent point. The final updated position is last position plus the correction scaled by 1 minus friction. This pushes the point mass back to the sphere surface and applies friction.
+For plane collisions, I implemented Plane::collide by checking if the point mass crossed the plane between last position and current position. I do this by checking the sign of the dot product with the plane normal at both positions. If the signs differ, the point crossed the plane. I compute the tangent point using line plane intersection along the path from last position to current position. I then move this tangent point slightly above the plane using SURFACE_OFFSET on the same side where the point mass came from. I compute the correction vector from last position to that adjusted point, then set the new position to last position plus the correction scaled by 1 minus friction.
+In Cloth::simulate, I added a loop so every point mass is tested against every collision object each time step. This applies sphere and plane collision response during simulation.
+For scene sphere json, I compared final resting results for ks = 500, 5000, and 50000. With ks = 500, the cloth is softer and stretches more, so it sags deeply and wraps more around the sphere. With ks = 5000, the cloth drapes naturally with moderate stretch. With ks = 50000, the cloth is stiffer, keeps more structure, and sags less over the sphere.
+For scene plane json, the cloth falls onto the plane and rests on the surface without clipping through it. The small surface offset helps keep the cloth just above the plane for stable contact.
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="part3resting1.png" width="400px"/>
+				  <figcaption>Resting state on sphere with ks = 5000</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="part3resting2.png" width="400px"/>
+				  <figcaption>Resting state on sphere with ks = 500</figcaption>
+				</td>
+			  </tr>
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="part3resting3.png" width="400px"/>
+				  <figcaption>Resting state on sphere with ks = 50000</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="part3flat1.png" width="400px"/>
+				  <figcaption>Cloth resting on plane</figcaption>
+				</td>
+			  </tr>
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="part3flat2.png" width="400px"/>
+				  <figcaption>Cloth resting on plane</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="part3flat3.png" width="400px"/>
+				  <figcaption>Cloth resting on plane</figcaption>
+				</td>
+			  </tr>
+			</table>
+		</div>
 
 		<h2>Part 4: Handling self-collisions</h2>
 		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
