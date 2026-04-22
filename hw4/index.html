@@ -84,7 +84,34 @@
 		</div>
 
 		<h2>Part 2: Simulation via numerical integration</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		For the spring constant, I tested a low value (0.1x default) and a high value (10x default), while keeping other parameters at default. With low ks, the cloth behaved much softer, stretched more, and sagged deeper before settling. It also took longer to stop moving. With high ks, the cloth resisted stretching and kept its shape better, so the final resting shape was tighter and less droopy.
+		For density, I tested a low value (0.25x default) and a high value (4x default), with ks and damping fixed. The low-density cloth looked lighter and responded more quickly to spring corrections, so it settled with less pronounced sag. The high-density cloth had more inertia, moved more heavily, and showed larger deformations before coming to rest.
+		For damping, I tested 0% and 10%, with ks and density fixed. At 0% damping, the cloth oscillated for a long time and kept swinging before settling. At 10%, motion was reduced much faster, and the cloth reached rest sooner with less visible oscillation.
+		The final shaded result from scene/pinned4.json shows the cloth in a stable resting state with realistic folds. Unless otherwise noted, I used the default scene parameters and only changed the single parameter being tested in each comparison.
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="part1.png" width="400px"/>
+				  <figcaption>Screenshot 1 of scene/pinned2.json</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="part1.png" width="400px"/>
+				  <figcaption>Screenshot 2 of scene/pinned2.json</figcaption>
+				</td>
+			  </tr>
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="part1.png" width="400px"/>
+				  <figcaption>Screenshot 3 of scene/pinned2.json</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="part2final.png" width="400px"/>
+				  <figcaption>Wireframe without shearing constraints</figcaption>
+				</td>
+			  </tr>
+			</table>
+		</div>
 
 		<h2>Part 3: Handling collisions with other objects</h2>
 		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
