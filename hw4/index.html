@@ -165,7 +165,71 @@ For scene plane json, the cloth falls onto the plane and rests on the surface wi
 		</div>
 
 		<h2>Part 4: Handling self-collisions</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		To efficiently handle cloth self-collisions without incurring a performance penalty, our implementation utilizes spatial hashing to divide the 3D space into discrete grid volumes. During each simulation step, a hash map is dynamically built to group point masses by their 3D grid coordinates, which are converted into unique 1D identifiers using a prime-number-based hash function. Then, for every point mass, collisions are only checked against other candidate masses within that exact same spatial box. If two point masses are found to be closer than twice the cloth's thickness, a corrective vector is computed to push them apart. Finally, all corrections for a given point mass are averaged and added to its position, scaled down by the total number of simulation steps to ensure stable, jitter-free collision resolution.
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="part4.1.png" width="400px"/>
+				  <figcaption>Cloth falling and folding part 1</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="part4.2.png" width="400px"/>
+				  <figcaption>Cloth falling and folding part 2</figcaption>
+				</td>
+			  </tr>
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="part4.3.png" width="400px"/>
+				  <figcaption>Cloth falling and folding part 3</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="part4densitydownp1.png" width="400px"/>
+				  <figcaption>Density decreased, part 1</figcaption>
+				</td>
+			  </tr>
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="part4densitydownp2.png" width="400px"/>
+				  <figcaption>Density decreased, part 2</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="part4densityupp1.png" width="400px"/>
+				  <figcaption>Density increased, part 1</figcaption>
+				</td>
+			  </tr>
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="part4densityupp2.png" width="400px"/>
+				  <figcaption>Density increased, part 2</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="part4springdownp1.png" width="400px"/>
+				  <figcaption>ks decreased, part 1</figcaption>
+				</td>
+			  </tr>
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="part4springdownp2.png" width="400px"/>
+				  <figcaption>ks decreased, part 2</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="part4springupp1.png" width="400px"/>
+				  <figcaption>ks increased, part 1</figcaption>
+				</td>
+			  </tr>
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="part4springupp2.png" width="400px"/>
+				  <figcaption>ks increased, part 2</figcaption>
+				</td>
+			  </tr>
+			</table>
+		</div>
+		When the density is decreased, the cloth is much lighter. Because the gravitational force is weaker relative to the strength of the springs, the cloth maintains its structural integrity much better. As seen in the "Density decreased" screenshots, it falls gently and folds into a few very large, smooth, and wide creases. It doesn't compress or flatten out much as it rests on itself.
+		When the density is increased, the cloth becomes much heavier. The increased downward gravitational force easily overpowers the structural and bending springs. As shown in the "Density increased" screenshots, the cloth crumples aggressively under its own weight. It collapses into a tighter, flatter pile characterized by many small, chaotic folds and wrinkles.
+		Lowering the spring constant makes the cloth highly flexible, stretchy, and compliant. Because the springs offer very little resistance to bending, the visual result is very similar to the high-density cloth. In the "ks decreased" screenshots, the cloth crumples easily upon impact, forming many tiny, tight ripples and folding flat against itself without much structural resistance.
+		Increasing the spring constant makes the cloth extremely stiff and rigid. The strong spring forces heavily resist any bending or folding. In the "ks increased" screenshots, the cloth actively fights against collapsing. It creates very large, rigid, and bouncy folds, refusing to crumple or lie flat. It almost behaves like a thick sheet of rubber or heavy leather rather than soft fabric.
 
 		<h2>Part 5: Shaders</h2>
 		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
