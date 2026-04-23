@@ -233,7 +233,73 @@ For scene plane json, the cloth falls onto the plane and rests on the surface wi
 		Increasing the spring constant makes the cloth extremely stiff and rigid. The strong spring forces heavily resist any bending or folding. In the "ks increased" screenshots, the cloth actively fights against collapsing. It creates very large, rigid, and bouncy folds, refusing to crumple or lie flat. It almost behaves like a thick sheet of rubber or heavy leather rather than soft fabric.
 
 		<h2>Part 5: Shaders</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		A shader program is a piece of software designed to run directly on a GPU and built for massive parallel processing, allowing for the calculation of the positions and colors of millions of pixels simultaneously. Vertex shaders calculate where an object is and how it's oriented towards light, and it hands that information off to the fragment shader which takes that data plus the light sources plus the camera angle and computes the exact color that each pixel should be.
+		<br> <br>
+		The Blinn-Phong shading model is a formula to simulate how light interacts with surfaces that gives object a shiny or metallic appearance and is computationally cheap. It breaks down light into ambient light, diffuse light, and specular light and adds them together.
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="part5ambient.png" width="400px"/>
+				  <figcaption>Only ambient component</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="part5diffuse.png" width="400px"/>
+				  <figcaption>Only diffuse component</figcaption>
+				</td>
+			  </tr>
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="part5specular.png" width="400px"/>
+				  <figcaption>Only specular component</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="part5combined.png" width="400px"/>
+				  <figcaption>Entire Blinn-Phong model</figcaption>
+				</td>
+			  </tr>
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="part5customshader.png" width="400px"/>
+				  <figcaption>Texture mapping with custom shader</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="part5bumpmapping.png" width="400px"/>
+				  <figcaption>Bump mapping on cloth and sphere</figcaption>
+				</td>
+			  </tr>
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="part5displacementmapping.png" width="400px"/>
+				  <figcaption>Displacement mapping on sphere</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="part5bumpcourse1.png" width="400px"/>
+				  <figcaption>Bump mapping after -o 16 -a 16</figcaption>
+				</td>
+			  </tr>
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="part5displacementcourse1.png" width="400px"/>
+				  <figcaption>Displacement mapping after -o 16 -a 16</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="part5bumpcourse2.png" width="400px"/>
+				  <figcaption>Bump mapping after -o 128 -a 128</figcaption>
+				</td>
+			  </tr>
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="part5displacementcourse2.png" width="400px"/>
+				  <figcaption>Displacement mapping after -o 128 -a 128</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="part5mirror.png" width="400px"/>
+				  <figcaption>Mirror shader on cloth and sphere</figcaption>
+				</td>
+			  </tr>
+			</table>
+		</div>
 
 		<h2>(Optional) Part 6: Extra Credit - Additional cloth simulation features!</h2>
 		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
