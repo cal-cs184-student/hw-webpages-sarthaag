@@ -300,9 +300,31 @@ For scene plane json, the cloth falls onto the plane and rests on the surface wi
 			  </tr>
 			</table>
 		</div>
+		<br>
+		Bump mapping creates an optical illusion -- it only modifies the normal vectors during the fragment shader phase to fake how light hits the surface. It does not alter the physical 3D mesh. Displacement mapping actually modifies the geometry -- it reads the height map in the vertex shader and pushes the vertices outward or inward along their normals before applying the lighting calculations. In the bump mapping render, the surface of the sphere looks deeply textured and bumpy, but it remains perfectly round and smooth when one looks at its outer silhouette against the background. In contrast, the displacement mapping render shows the physical geometry has changed. The silhouette of the sphere is heavily jagged and deformed, accurately reflecting the physical peaks and valleys of the brick texture.
+		<br> <br> 
+		For bump mapping, rendering with -o 16 -a 16 yields a low-polygon outline of the sphere, but the flat faces of those blocks on the sphere still display a highly detailed, crisp bumpy texture. Using -o 128 -a 128 just makes the underlying sphere smoother, the texture detail remains largely the same. For displacement mapping, with -o 16 -a 16 there aren't enough vertices to accurately represent the complex details of the height map. The physical displacement is blocky and poorly defined because it's "undersampling" the texture. With -o 128 -a 128, there are way more vertices available to be individually pushed and pulled. This allows the displaced geometry to smoothly and accurately match the fine details of the high-resolution texture map.
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="part5customp1.png" width="400px"/>
+				  <figcaption>Custom shader before movement</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="part5customp2.png" width="400px"/>
+				  <figcaption>Custom shader after movement</figcaption>
+				</td>
+			  </tr>
+			</table>
+		</div>
+		<br>
+		I added several effects in my custom shader. First, I pushed the vertices of the cloth outward along their normal vectors based on sine and cosine functions of the original x and y coordinates. This physically warps the cloth into a rippling, wavy shape without needing any external height map images.
+		Next, I added a "glowing" effect to the cloth. By taking the dot product of the surface normal and the camera's view vector, I was able to determine the angle at which the user is looking at the surface. I inverted this value so that the center of the cloth (facing the camera dead-on) is a dark, translucent base color, while the grazing angles at the edges transition into a bright, glowing cyan rim.
+		Lastly, I implemented a color-splitting prism effect to give the glass a thick, refractive quality. Instead of sampling the environment cubemap with a single, mathematically perfect reflection vector, I created three slightly offset reflection vectors by intentionally warping the surface normal. I sampled the Red, Green, and Blue channels of the environment map independently using these three different vectors. When combined, this creates a realistic chromatic aberration effect, making the reflections warp and split into different colors just like real curved glass.
 
 		<h2>(Optional) Part 6: Extra Credit - Additional cloth simulation features!</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		ooga booga 
 		
 		</div>
 	</body>
