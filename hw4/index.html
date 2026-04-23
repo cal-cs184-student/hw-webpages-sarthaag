@@ -324,7 +324,46 @@ For scene plane json, the cloth falls onto the plane and rests on the surface wi
 		Lastly, I implemented a color-splitting prism effect to give the glass a thick, refractive quality. Instead of sampling the environment cubemap with a single, mathematically perfect reflection vector, I created three slightly offset reflection vectors by intentionally warping the surface normal. I sampled the Red, Green, and Blue channels of the environment map independently using these three different vectors. When combined, this creates a realistic chromatic aberration effect, making the reflections warp and split into different colors just like real curved glass.
 
 		<h2>(Optional) Part 6: Extra Credit - Additional cloth simulation features!</h2>
-		ooga booga 
+
+		<h2>Idea 1: Wind</h2>
+		To simulate realistic wind, I implemented an aerodynamic drag model that calculates force based on the cloth's exposed surface area rather than simply applying a constant directional vector to individual point masses. By dividing each two-by-two grid of point masses into two distinct triangles, I calculated their surface normals by taking the cross product of two of their adjacent edge vectors. Because the magnitude of this cross product is equal to twice the triangle's area, it elegantly factors both the facing direction and the physical surface area nto the standard aerodynamic drag equation. Utilizing the dot product between the wind velocity and the surface normal ensures that the wind dynamically exerts maximum force when hitting the cloth dead-on, and zero force when blowing perfectly parallel across it. Finally, this calculated force is distributed equally among the three point masses that make up each triangle, allowing the entire cloth mesh to billow and ripple realistically based on its angle to the wind. To integrate interactive wind controls into the simulation's GUI, I modified three key files to bridge the interface with the physics engine. First, in cloth.h, I added a Vector3D wind_velocity variable to the ClothParameters struct so the simulation state could permanently store the current wind vector. Next, in cloth.cpp, I updated my Cloth::simulate function to pull this dynamic vector directly from the parameters struct rather than using hardcoded values. Finally, in clothSimulator.cpp, I expanded the NanoGUI setup by duplicating the existing Gravity interface block. I relabeled this new section to "Wind" and updated the lambda callback functions on the X, Y, and Z float boxes so that any user input immediately updates the wind_velocity inside the ClothParameters struct. This setup allows the aerodynamic forces to be manipulated and visualized in real-time without recompiling.
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="part6wind1.png" width="400px"/>
+				  <figcaption>Constant wind in x direction</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="part6wind2.png" width="400px"/>
+				  <figcaption>Constant wind in y direction pushing cloth up</figcaption>
+				</td>
+			  </tr>
+			</table>
+		</div>
+
+		<h2>Idea 2: Sphere movement</h2>
+		To enable interactive object movement, I capitalized on the existing collision detection architecture. The simulation's collide function dynamically calculates the distance between every cloth point mass and the sphere's origin on every single frame. Because of this continuous evaluation, I realized that physically moving the sphere wouldn't require writing any new physics algorithms; I simply needed a way to update the sphere's center coordinates in real time. Whenever the sphere's position updates, the existing collision logic instantly detects the newly intersecting point masses and pushes them outward to the new surface boundary. This allows the sphere to realistically drag, slide against, and push the draped cloth around the scene purely through the standard collision response. Integrating the GUI controls for the sphere required minor modifications to two files. First, in collision/sphere.h, I altered the encapsulation of the Vector3D origin variable, moving it from the private to the public scope so external interface elements could directly read and modify its coordinates. Next, in clothSimulator.cpp, I updated the initGUI function to iterate through the simulation's collision_objects array and identify the active sphere using a dynamic_cast. Once successfully located, I generated a new "Move Sphere" panel containing X, Y, and Z float box sliders, linking their lambda callback functions directly to the target sphere's origin variables. This ensures that any user adjustment to the sliders instantly translates the sphere in 3D space.
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="part6coords1.png" width="400px"/>
+				  <figcaption>x=0.75, z=0.75 start causes cloth to slowly fall off</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="part6coords2.png" width="400px"/>
+				  <figcaption>y=1.2 puts sphere above cloth</figcaption>
+				</td>
+			  </tr>
+			</table>
+		</div>
+
+
+		<h2>Idea 3: Adding other primitives (Box and smth)</h2>
+
+		<h2>Idea 4: hi</h2>
+		
 		
 		</div>
 	</body>
