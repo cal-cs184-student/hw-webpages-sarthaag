@@ -44,7 +44,7 @@
 		-->
 
 		<h2>Overview</h2>
-		Give a high-level overview of what you implemented in this homework. Think about what you've built as a whole. Share your thoughts on what interesting things you've learned from completing the homework.
+		In this homework, I built a real-time, physically-based cloth simulation engine from the ground up. The foundation of the project is a mass-spring model that uses Verlet integration to simulate the kinematic behavior of fabric under various forces. I implemented both external object collisions (allowing the cloth to drape over standard and custom 3D primitives) and self-collisions to prevent the fabric from clipping through itself. I also extended the engine to include tearing, advanced self-collisions, wind, and additional 3D primitives. One of the most interesting things I learned was when I was implementing the cloth tearing. I learned that severing the mathematical forces (deleting springs) is completely separate from what the graphics card draws. Discovering that I had to explicitly delete the Triangle objects to stop OpenGL from stretching polygons across the void was a fantastic lesson in how the physics backend and graphics frontend must be perfectly synchronized. Additionally, by extending the GUI to control the wind vector and the physical coordinates of the primitives, I learned how easily a rigid simulation can be turned into an interactive engine. Exposing backend physics variables to a front-end interface fundamentally changed how I tested and interacted with the code, making it feel like a true digital playground.
 
 		<h2>Part 1: Masses and springs</h2>
 
