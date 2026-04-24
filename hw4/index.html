@@ -359,10 +359,24 @@ For scene plane json, the cloth falls onto the plane and rests on the surface wi
 			</table>
 		</div>
 
+		<h2>Idea 3: Adding other primitives (Box and Cylinder)</h2>
+		To expand the simulation's collision capabilities, I implemented two new 3D primitives: an axis-aligned Box and a Cylinder. For the Box, the collide function evaluates whether a point mass's current position falls strictly within the object's minimum and maximum 3D coordinates. If an intersection is detected, it calculates the distance to all six faces, identifies the absolute closest face, and pushes the point mass directly outward to that surface. The Cylinder implementation utilizes a hybrid mathematical approach, checking if a point mass is simultaneously within the vertical height limits and the circular radial boundary in the XZ plane. Upon a collision, it calculates the distance to the top cap, bottom cap, and the curved wall, determining the shortest escape path and applying a correction vector to push the point mass safely to the exterior.
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="part6box.png" width="400px"/>
+				  <figcaption>Cloth collision with box</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="part6cylinder.png" width="400px"/>
+				  <figcaption>Cloth collision with cylinder</figcaption>
+				</td>
+			  </tr>
+			</table>
+		</div>
 
-		<h2>Idea 3: Adding other primitives (Box and smth)</h2>
-
-		<h2>Idea 4: hi</h2>
+		<h2>Idea 4: More robust self-collisions</h2>
 		
 		
 		</div>
