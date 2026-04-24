@@ -416,6 +416,24 @@ For scene plane json, the cloth falls onto the plane and rests on the surface wi
 			</table>
 		</div>
 		
+		<h2>Idea 5: Cloth tearing</h2>
+		To simulate the physical yielding and tearing of real fabric under extreme stress, I implemented a dynamic structural failure system within the main physics loop. At the beginning of every simulation step, before applying spring forces, the system evaluates the state of every active spring in the mesh. It calculates the current Euclidean distance between the two point masses connected by the spring and compares it to the spring's original rest_length. If the current length exceeds a defined tear_threshold (e.g., stretching past 150% of its resting state), the spring is considered structurally compromised. To safely modify the mesh topology without crashing the active loop, I utilized the C++ erase-remove idiom with a custom lambda function to efficiently flag and permanently delete the snapped springs from the simulation's active spring array. 
+		<br> <br>
+		As demonstrated in the screenshots below, this implementation allows the cloth to react realistically to extreme, localized physical tension. When an unyielding object (such as the sphere) forces its way through a constrained section of the cloth, the springs in that specific region stretch beyond their threshold and snap. The deletion of these constraints permanently rips a hole in the mesh, allowing the sphere to pass completely through while the remaining fabric realistically drapes and collapses around the newly formed tear.
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="part6tear1.png" width="400px"/>
+				  <figcaption>Initial tear of cloth on sphere</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="part6tear2.png" width="400px"/>
+				  <figcaption>Aftermath of tear</figcaption>
+				</td>
+			  </tr>
+			</table>
+		</div>
 		
 		</div>
 	</body>
