@@ -377,6 +377,44 @@ For scene plane json, the cloth falls onto the plane and rests on the surface wi
 		</div>
 
 		<h2>Idea 4: More robust self-collisions</h2>
+		To improve the accuracy and stability of the cloth's self-collisions, I replaced the default spatial hashing algorithm with a dynamic Axis-Aligned Bounding Box (AABB) Bounding Volume Hierarchy (BVH). Every simulation step, the cloth's active point masses are recursively partitioned into a binary tree. At each step, a bounding box is calculated for the current set of points, and the points are split along their longest spatial axis until a maximum leaf size is reached. During the self-collision check, the tree is traversed recursively. If the bounding boxes of two nodes do not intersect, all point masses within them are instantly culled, drastically reducing unnecessary distance calculations. If two leaf nodes intersect, exact point-to-point distance checks are performed. If any two points are closer than 2 * thickness, a corrective position vector is applied to push them apart, respecting their pinned status.
+		<br> <br> 
+		As seen in the renders on the left, the spatial hashing struggles significantly with dense stacking. As the cloth falls and crumples on the plane, it completely loses its volume. The folds intersect and clip through one another until the cloth collapses into a nearly flat, 2D sheet on the ground. But as seen in the renders on the right, the BVH approach successfully handles complex folding. When the cloth falls and rests on the plane, the self-collisions forcefully maintain the 2 * thickness distance between layers. The cloth realistically stacks on top of itself, preserving its structural volume, distinct folds, and three-dimensional depth without clipping.
+
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="part6notrobust1.png" width="400px"/>
+				  <figcaption>Cloth fall part 1 (before robustness)</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="part6robust1.png" width="400px"/>
+				  <figcaption>Cloth fall part 1 (after robustness)</figcaption>
+				</td>
+			  </tr>
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="part6notrobust2.png" width="400px"/>
+				  <figcaption>Cloth fall part 2 (before robustness)</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="part6robust2.png" width="400px"/>
+				  <figcaption>Cloth fall part 2 (after robustness)</figcaption>
+				</td>
+			  </tr>
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="part6notrobust3.png" width="400px"/>
+				  <figcaption>Cloth fall part 3 (before robustness)</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="part6robust3.png" width="400px"/>
+				  <figcaption>Cloth fall part 3 (after robustness)</figcaption>
+				</td>
+			  </tr>
+			</table>
+		</div>
 		
 		
 		</div>
